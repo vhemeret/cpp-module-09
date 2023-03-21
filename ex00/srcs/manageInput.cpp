@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:42:59 by vahemere          #+#    #+#             */
-/*   Updated: 2023/03/21 15:54:21 by vahemere         ###   ########.fr       */
+/*   Updated: 2023/03/21 19:33:09 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 void	del_space(std::string &line)
 {
-	int	i = -1;
-	while (line[++i]){
+	int	i = 0;
+	while (line[i]){
 		if (line[i] == ' ')
 			line.erase(i, 1);
+		else
+			i++;
 	}
 }
 
-std::pair<std::string, double> getInput(std::string line){
+std::pair<std::string, double> getInput(std::string &line){
 	
 	std::istringstream	stream(line);
 	std::string			left;
