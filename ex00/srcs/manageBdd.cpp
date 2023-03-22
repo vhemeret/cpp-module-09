@@ -1,36 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   manageBdd.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/15 16:43:02 by vahemere          #+#    #+#             */
-/*   Updated: 2023/03/22 21:20:31 by vahemere         ###   ########.fr       */
+/*   Created: 2023/03/22 19:10:55 by vahemere          #+#    #+#             */
+/*   Updated: 2023/03/22 21:22:55 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "includes/BitcoinExchange.hpp"
+# include "../includes/BitcoinExchange.hpp"
 
-int main(int ac, char **av)
+int	insertBdd(std::string data, std::map<std::string, double> &map)
 {
-	std::map<std::string, double>		bdd;
-	std::fstream						input;
-	
-	if (ac != 2)
+	std::fstream	fd;
+	std::string		line;
+
+	fd.open(data.c_str(), std::ios::in);
+	if (!fd.is_open())
 	{
 		std::cout << "Error: could not open file." << std::endl;
 		return (0);
 	}
 	else
 	{
-		if (!openInput(av[1], input))
-			return (0);
-		else
-		{	
-			insertBdd("test.csv", bdd);
-			run(input, bdd);
+		while (getline(fd, line))
+		{
+			std::stringstream	stream(line);
+			std::string			date;
+			std::string			strValue;
+			double				value;
+
+			getline(stream, date, ',');
+			getline(stream, strValue);
+			value = strtod(strValue.c_str(), NULL);
+			map[date] = value;
 		}
 	}
-	return (0);
+	return (1);
 }
