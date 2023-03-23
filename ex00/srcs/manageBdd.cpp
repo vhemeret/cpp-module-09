@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 19:10:55 by vahemere          #+#    #+#             */
-/*   Updated: 2023/03/22 21:22:55 by vahemere         ###   ########.fr       */
+/*   Updated: 2023/03/23 18:06:31 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	insertBdd(std::string data, std::map<std::string, double> &map)
 	fd.open(data.c_str(), std::ios::in);
 	if (!fd.is_open())
 	{
-		std::cout << "Error: could not open file." << std::endl;
+		std::cout << "\033[1;31mError:\033[0m could not open file." << std::endl;
 		return (0);
 	}
 	else

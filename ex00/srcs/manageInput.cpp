@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:42:59 by vahemere          #+#    #+#             */
-/*   Updated: 2023/03/22 21:32:16 by vahemere         ###   ########.fr       */
+/*   Updated: 2023/03/23 18:06:20 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int		check_digits(const char *str)
 {
-	std::cout << "|" << str << "|" << std::endl;
 	for (int i = 0; str[i]; i++)
 	{
 		if (str[i] < '0' || str[i] > '9')
@@ -32,24 +31,18 @@ int		checkInput(std::string year, std::string month, std::string day, double val
 
 	if (val > 1000)
 	{
-		std::cout << "Error: too large a number." << std::endl;
+		std::cout << "\033[1;31mError:\033[0m too large a number." << std::endl;
 		return (0);
 	}
 	if (val < 0)
 	{
-		std::cout << "Error: not a positive number." << std::endl;
+		std::cout << "\033[1;31mError:\033[0m not a positive number." << std::endl;
 		return (0);
 	}
 	if (!check_digits(year.c_str()) || !check_digits(month.c_str()) || !check_digits(day.c_str()))
-	{
-		std::cout << "error digits:  ";
 		check = false;
-	}
 	if (year.length() != 4 || month.length() != 2 || day.length() != 2)
-	{
-		std::cout << "error length:  ";
 		check = false;
-	}
 	y = atoi(year.c_str());
 	m = atoi(month.c_str());
 	d = atoi(day.c_str());
@@ -59,7 +52,7 @@ int		checkInput(std::string year, std::string month, std::string day, double val
 		check = false;
 	if (check == false)
 	{
-		std::cout << "Error: bad input => " << year << "-" << month << "-" << day << std::endl;
+		std::cout << "\033[1;31mError:\033[0m bad input => " << year << "-" << month << "-" << day << std::endl;
 		return (0);
 	}
 	return (1);
@@ -96,7 +89,7 @@ int	openInput(std::string file, std::fstream &fd)
 	fd.open(file.c_str(), std::ios::in);
 	if (!fd.is_open())
 	{
-		std::cout << "Error: could not open file." << std::endl;
+		std::cout << "\033[1;31mError:\033[0m could not open file." << std::endl;
 		return (0);
 	}
 	return (1);

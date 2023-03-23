@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 19:47:16 by vahemere          #+#    #+#             */
-/*   Updated: 2023/03/22 21:34:17 by vahemere         ###   ########.fr       */
+/*   Updated: 2023/03/23 18:02:52 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,13 @@ void	run(std::fstream &input, std::map<std::string, double> &bdd)
 		}
 		
 		p = getInput(line);
-		del_space(line);
+		del_space(p.first);
 		std::stringstream	stream(p.first);
 		getline(stream, year, '-');
 		getline(stream, month, '-');
 		getline(stream, day);
 		if (!checkInput(year, month, day, p.second))
 			continue;
-		it = bdd.begin();
 		try
 		{
 			value = bdd.at(p.first);
@@ -48,9 +47,9 @@ void	run(std::fstream &input, std::map<std::string, double> &bdd)
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << '\n';
 			bdd[p.first];
 			
+			it = bdd.find(p.first);
 			std::map<std::string, double>::iterator itmp;
 			itmp = it;
 			if (it == bdd.begin())
@@ -63,6 +62,6 @@ void	run(std::fstream &input, std::map<std::string, double> &bdd)
 			value = bdd[it->first];
 			bdd.erase(itmp);
 		}
-		std::cout << p.first << " => " << p.second << " = " << value * p.second << std::endl;
+		std::cout << "\033[1;34m" << it->first << "\033[0m: " << "=> " << p.second << " = " << value * p.second << std::endl;
 	}
 }

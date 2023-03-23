@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 16:43:02 by vahemere          #+#    #+#             */
-/*   Updated: 2023/03/22 21:20:31 by vahemere         ###   ########.fr       */
+/*   Updated: 2023/03/23 18:11:41 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int main(int ac, char **av)
 			return (0);
 		else
 		{	
-			insertBdd("test.csv", bdd);
+			insertBdd("data.csv", bdd);
 			run(input, bdd);
 		}
 	}
