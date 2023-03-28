@@ -6,7 +6,7 @@
 #    By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 04:09:30 by vahemere          #+#    #+#              #
-#    Updated: 2023/03/23 17:57:33 by vahemere         ###   ########.fr        #
+#    Updated: 2023/03/27 17:52:49 by vahemere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ all: $(NAME)
 
 $(NAME) : header compiling $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(PURPLE)] 100%$(END) \n\n$(YELLOW)-----$(END)\n\n$(PURPLE)./irc$(END) ✔️"
+	@echo "$(PURPLE)] 100%$(END) \n\n$(YELLOW)-----$(END)\n\n$(PURPLE)./$(NAME)$(END) ✔️"
 
 $(OBJS_DIR)/%.o : %.cpp
 	@mkdir -p $(OBJS_DIR)
@@ -52,7 +52,7 @@ clean :
 
 fclean : header clean
 	@rm -rf $(NAME)
-	@echo "$(GREEN)cleaning ./irc$(END)✔️\n\n"
+	@echo "$(GREEN)cleaning ./$(NAME)$(END)✔️\n\n"
 
 re : fclean all
 
