@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 22:01:48 by vahemere          #+#    #+#             */
-/*   Updated: 2023/04/05 19:03:44 by vahemere         ###   ########.fr       */
+/*   Updated: 2023/04/05 20:12:17 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	TempDisplay(std::vector<int> &main, std::vector<int> &temp)
 void	MergeInsertionSort(std::vector<int> &arr)
 {
 	int					tmp;
+	int					tmp2;
 	int					i;
 	std::vector<int>	subarr;
 	
@@ -51,21 +52,44 @@ void	MergeInsertionSort(std::vector<int> &arr)
 	std::cout << "-------------------" << std::endl;
 
 	// trie par paire par rapport au second element
-	// # 
+	for (int i = 1; (unsigned long)i < arr.size(); i += 2)
+	{
+		for (int j = i + 2; (unsigned long)j < arr.size(); j += 2)
+		{
+			if (arr[j] < arr[i])
+			{
+				tmp = arr[j];
+				tmp2 = arr[j - 1];
+				arr[j] = arr[i];
+				arr[j - 1] = arr[i - 1];
+				arr[i] = tmp;
+				arr[i - 1] = tmp2;
+			}
+		}
+	}
+	TempDisplay(arr, subarr);
+	std::cout << "-------------------" << std::endl;
 
 	// separation des paires en deux listes.
 	std::vector<int>::iterator	it;
 	i = 0;
 	for (it = arr.begin(); it != arr.end(); it++)
 	{
+		i++;
 		if (i % 2 != 0)
 		{
 			subarr.push_back(*it);
-			arr.erase(it);
+			arr.pop_back();
 		}
-		i++;
 	}
-	TempDisplay(arr, subarr);
+	// i = 0;
+	// while (arr[i])
+	// {
+	// 	if (i % 2 != 0)
+	// 		arr.erase(arr.begin() + i);
+	// 	i++;
+	// }
+	// TempDisplay(arr, subarr);
 }
 
 int main(int ac, char **av)
