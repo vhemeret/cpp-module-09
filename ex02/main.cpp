@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 22:01:48 by vahemere          #+#    #+#             */
-/*   Updated: 2023/04/05 20:12:17 by vahemere         ###   ########.fr       */
+/*   Updated: 2023/04/13 02:49:54 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,42 @@
 #include <vector>
 #include <deque>
 
-void	TempDisplay(std::vector<int> &main, std::vector<int> &temp)
+
+/*============================================ VECTOR PART ====================================================*/
+
+// insertion des éléments de le pending chain dans la main chain par recherche binaire
+void binaryInsert(std::vector<int> &main, std::vector<int> &pending) 
 {
-	std::cout << "Main Array:" << std::endl;
-	for (int i = 0; (unsigned long)i < main.size(); i++)
-		std::cout << "|" << main[i] << "|" << " ";
-	std::cout << std::endl << std::endl;
-	if (temp.size())
+    int mainSize = main.size();
+    int pendingSize = pending.size();
+	
+    for (int i = 0; i < pendingSize; i++)
 	{
-		std::cout << "Sub-Array" << std::endl;
-		for (int i = 0; (unsigned long)i < temp.size(); i++)
-			std::cout << "|" << temp[i] << "|" << " ";
-		std::cout << std::endl << std::endl;
-	}
+        int element = pending[i];
+        int low = 0, high = mainSize - 1;
+		
+        while (low <= high) 
+		{
+            int mid = (low + high) / 2;
+			
+            if (element < main[mid])
+                high = mid - 1;
+            else
+                low = mid + 1;
+        }
+		
+        main.insert(main.begin() + low, element);
+        mainSize++;
+    }
 }
+
 
 void	MergeInsertionSort(std::vector<int> &arr)
 {
 	int					tmp;
 	int					tmp2;
-	int					i;
-	std::vector<int>	subarr;
 	
-	// formation de paire et trie des premiers elements (dans le meme vecteur).
-	TempDisplay(arr, subarr);
+	// formation de paire et trie des premiers elements (premier element < au deuxieme)
 	for (int n = 0; (unsigned long)n < arr.size(); n += 2)
 	{
 		if (arr[n + 1] && arr[n] > arr[n + 1])
@@ -48,10 +60,8 @@ void	MergeInsertionSort(std::vector<int> &arr)
 			arr[n + 1] = tmp;
 		}
 	}
-	TempDisplay(arr, subarr);
-	std::cout << "-------------------" << std::endl;
 
-	// trie par paire par rapport au second element
+	// trie des paires dans l'ordre croissant (par rapport au second element)
 	for (int i = 1; (unsigned long)i < arr.size(); i += 2)
 	{
 		for (int j = i + 2; (unsigned long)j < arr.size(); j += 2)
@@ -67,29 +77,37 @@ void	MergeInsertionSort(std::vector<int> &arr)
 			}
 		}
 	}
-	TempDisplay(arr, subarr);
-	std::cout << "-------------------" << std::endl;
+	
+	// separation des paires en deux listes (si paire -> main chain | si impoaire -> pending chain)
+	std::vector<int> main;
+	std::vector<int> pending;
 
-	// separation des paires en deux listes.
-	std::vector<int>::iterator	it;
-	i = 0;
-	for (it = arr.begin(); it != arr.end(); it++)
+	for (int i = 0; (unsigned long)i < arr.size(); i++)
 	{
-		i++;
-		if (i % 2 != 0)
-		{
-			subarr.push_back(*it);
-			arr.pop_back();
-		}
+		if (i % 2 == 0)
+			pending.push_back(arr[i]);
+		else
+			main.push_back(arr[i]);
 	}
-	// i = 0;
-	// while (arr[i])
-	// {
-	// 	if (i % 2 != 0)
-	// 		arr.erase(arr.begin() + i);
-	// 	i++;
-	// }
-	// TempDisplay(arr, subarr);
+	arr.clear();
+	binaryInsert(main, pending);
+	arr = main;
+}
+
+/*=============================================================================================================*/
+
+
+/*============================================ DEQUE PART =====================================================*/
+
+/*=============================================================================================================*/
+
+void	displayArr(std::vector<int> &arr)
+{
+	std::vector<int>::iterator it;
+	
+	for (it = arr.begin(); it != arr.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
 }
 
 int main(int ac, char **av)
@@ -98,18 +116,17 @@ int main(int ac, char **av)
 	
 	if (ac)
 	{
-		// init array
 		for (int i = 1; av[i]; i++)
 			arr.push_back(std::atoi(av[i]));
 		
-		// sort 
+		// need to parse
+		
+		std::cout << "Before:\t";
+		displayArr(arr);
 		MergeInsertionSort(arr);
+		std::cout << "After\t";
+		displayArr(arr);
 
-		// display result
-		// std::vector<int>::iterator it;
-		// for (it = arr.begin(); it != arr.end(); it++)
-		// 	std::cout << *it << " ";
-		// std::cout << std::endl;
 	}
 
 	return (0);
