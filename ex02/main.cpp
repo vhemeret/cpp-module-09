@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 22:01:48 by vahemere          #+#    #+#             */
-/*   Updated: 2023/04/13 02:49:54 by vahemere         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:07:04 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 #include <cstdlib>
 #include <vector>
 #include <deque>
+#include <ctime>
+#include <sstream>
+#include <iomanip>
 
 
 /*============================================ VECTOR PART ====================================================*/
 
 // insertion des éléments de le pending chain dans la main chain par recherche binaire
-void binaryInsert(std::vector<int> &main, std::vector<int> &pending) 
+template<typename T>
+void binaryInsert(T &main, T &pending) 
 {
     int mainSize = main.size();
     int pendingSize = pending.size();
@@ -27,9 +31,10 @@ void binaryInsert(std::vector<int> &main, std::vector<int> &pending)
     for (int i = 0; i < pendingSize; i++)
 	{
         int element = pending[i];
-        int low = 0, high = mainSize - 1;
+        int low = 0;
+		int	high = mainSize - 1;
 		
-        while (low <= high) 
+        while (low <= high)
 		{
             int mid = (low + high) / 2;
 			
@@ -44,8 +49,8 @@ void binaryInsert(std::vector<int> &main, std::vector<int> &pending)
     }
 }
 
-
-void	MergeInsertionSort(std::vector<int> &arr)
+template<typename T>
+void	MergeInsertionSort(T &arr)
 {
 	int					tmp;
 	int					tmp2;
@@ -79,8 +84,8 @@ void	MergeInsertionSort(std::vector<int> &arr)
 	}
 	
 	// separation des paires en deux listes (si paire -> main chain | si impoaire -> pending chain)
-	std::vector<int> main;
-	std::vector<int> pending;
+	T main;
+	T pending;
 
 	for (int i = 0; (unsigned long)i < arr.size(); i++)
 	{
@@ -101,31 +106,61 @@ void	MergeInsertionSort(std::vector<int> &arr)
 
 /*=============================================================================================================*/
 
-void	displayArr(std::vector<int> &arr)
+template<typename T>
+void	displayArr(T &arr)
 {
-	std::vector<int>::iterator it;
+	typename T::iterator it;
+	int	size = arr.size();
 	
-	for (it = arr.begin(); it != arr.end(); it++)
-		std::cout << *it << " ";
+	if (size <= 10)
+	{
+		for (it = arr.begin(); it != arr.end(); it++)
+			std::cout << *it << " ";
+	}
+	else
+	{
+		for (it = arr.begin(); it != arr.begin() + 4; it++ )
+			std::cout << *it << " ";
+		std::cout << "[...]";
+	}
 	std::cout << std::endl;
 }
 
 int main(int ac, char **av)
 {
-	std::vector<int> arr;
+	std::vector<int> vector_arr;
+	std::deque<int>	deque_arr;
 	
 	if (ac)
 	{
 		for (int i = 1; av[i]; i++)
-			arr.push_back(std::atoi(av[i]));
+		{
+			vector_arr.push_back(std::atoi(av[i]));
+			deque_arr.push_back(std::atoi(av[i]));
+		}
 		
 		// need to parse
 		
+		// part vector
+		clock_t	start = clock();
+		clock_t	end = clock();
+		double	time;
 		std::cout << "Before:\t";
-		displayArr(arr);
-		MergeInsertionSort(arr);
+		displayArr(vector_arr);
+		start = clock();
+		MergeInsertionSort(vector_arr);
+		end = clock();
+		time = (end - start) / (double)(CLOCKS_PER_SEC / 1000000);
 		std::cout << "After\t";
-		displayArr(arr);
+		displayArr(vector_arr);
+		std::cout << "Time to process a range of " << vector_arr.size() << " elements with std::vector : " << std::fixed << std::setprecision(4) << time << " us" << std::endl;
+
+		//part deque
+		start = clock();
+		MergeInsertionSort(deque_arr);
+		end = clock();
+		time = (end - start) / (double)(CLOCKS_PER_SEC / 1000000);
+		std::cout << "Time to process a range of " << deque_arr.size() << " elements with std::deque : " << std::fixed << std::setprecision(4) << time << " us" << std::endl;
 
 	}
 
