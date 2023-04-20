@@ -6,7 +6,7 @@
 #    By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 04:09:30 by vahemere          #+#    #+#              #
-#    Updated: 2023/03/27 17:52:49 by vahemere         ###   ########.fr        #
+#    Updated: 2023/04/20 18:49:31 by vahemere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ OBJS_DIR = objs
 SRCS_DIR = $(shell find srcs -type d)
 
 vpath %.cpp $(foreach dir, $(SRCS_DIR), $(dir))
-SRCS = main.cpp manageInput.cpp manageBdd.cpp BitcoinExchange.cpp \
+SRCS = main.cpp BitcoinExchange.cpp \
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:%.cpp=%.o))
 DEPS = $(OBJS:%.o=%.d)

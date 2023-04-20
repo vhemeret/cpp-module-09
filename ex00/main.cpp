@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 16:43:02 by vahemere          #+#    #+#             */
-/*   Updated: 2023/03/23 18:11:41 by vahemere         ###   ########.fr       */
+/*   Updated: 2023/04/20 18:41:00 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main(int ac, char **av)
 	
 	if (ac != 2)
 	{
-		std::cout << "Error: could not open file." << std::endl;
+		std::cout << "Error: To few arguments." << std::endl;
 		return (0);
 	}
 	else
