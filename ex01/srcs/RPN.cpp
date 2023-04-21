@@ -6,7 +6,7 @@
 /*   By: vahemere <vahemere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:24:06 by vahemere          #+#    #+#             */
-/*   Updated: 2023/03/28 21:47:11 by vahemere         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:32:38 by vahemere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int	checkComponentInput(std::string input)
 
 	while (getline(stream, component, ' '))
 	{
+		if (component[i] == '/' || component[i] == '*')
+			if (component[i + 1])
+				return (0);
 		if (i == 0 && isdigit(component[0]))
 			while (component[++i])
 				if (!isdigit(component[i]))
@@ -76,6 +79,7 @@ void	rpn(std::string input)
 	std::stack<int>			mystack;
 	std::istringstream		stream(input);
 	std::string				tmp;
+	char					sign = 0;
 	int						a;
 	int						b;
 	bool					isoper;
@@ -86,12 +90,16 @@ void	rpn(std::string input)
 		if (tmp[0] == '-' || tmp[0] == '+' || tmp[0] == '*' || tmp[0] == '/')
 		{
 			if (tmp[1])
-			{
+			{ 
+				// maybe a +n or -n and not a sign
 				if (isdigit(tmp[1]))
 					isoper = false;
 			}
 			else
+			{
+				sign = tmp[0];
 				isoper = true;
+			}
 		}
 		else
 			isoper = false;
@@ -104,11 +112,16 @@ void	rpn(std::string input)
 				mystack.pop();
 				b = mystack.top();
 				mystack.pop();
-				mystack.push(calculate(b, a, tmp[0]));
+				if (sign == '/' && a == 0)
+				{
+					std::cout << "Error: division by zero" << std::endl;
+					return ;
+				}
+				mystack.push(calculate(b, a, sign));
 			}
 		}
 		else
 			mystack.push(std::atoi(tmp.c_str()));
 	}
-	std::cout << mystack.top() << std::endl;	
+	std::cout << mystack.top() << std::endl;
 }
